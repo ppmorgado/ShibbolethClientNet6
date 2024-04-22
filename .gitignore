@@ -7,3 +7,7 @@ ShibClient2/bin/Debug/net6.0/Humanizer.dll
 /ShibClient2/obj
 ShibClient2/.vs/ProjectEvaluation/shibclient2.metadata.v6.1
 ShibClient2/.vs/ProjectEvaluation/shibclient2.projects.v6.1
+/ShibClient2/bin/Release/net6.0
+/ShibClient2/.config
+/ShibClient2/Properties/PublishProfiles
+/ShibClient2/ShibClient2.csproj.user

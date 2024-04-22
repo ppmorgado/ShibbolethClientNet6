@@ -38,6 +38,7 @@ builder.Services.AddAuthentication()
         options =>
         {
             options.UseChallenge = true;  // required to process the Shibboleth login
+            options.CallbackPath = new Microsoft.AspNetCore.Http.PathString("/secure");
         }
     );
 
