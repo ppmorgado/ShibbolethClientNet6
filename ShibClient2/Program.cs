@@ -11,9 +11,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+                                 options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(
 //                                                      options =>
@@ -27,19 +30,29 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 //                    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
+// DefaultAuthentication and DefaultSignInScheme selected in the .AddDefaultIdentity
+builder.Services.AddAuthentication()
+    .AddUWShibboleth(
+        authenticationScheme: ShibbolethDefaults.AuthenticationScheme,
+        displayName: "UW-Madison NetID",
+        options =>
+        {
+            options.UseChallenge = true;  // required to process the Shibboleth login
+        }
+    );
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = ShibbolethDefaults.AuthenticationScheme;
-}
- )
-     .AddUWShibboleth(authenticationScheme: ShibbolethDefaults.AuthenticationScheme, displayName: "shibboleth", options =>
-     {
-         options.UseChallenge = true;  // required to process the Shibboleth login
-         options.CallbackPath = new Microsoft.AspNetCore.Http.PathString("/secure");
-         //options.ProcessChallenge = true;   // readonly on v8
-         //options.ChallengePath = new Microsoft.AspNetCore.Http.PathString("/secure");  // readonly on v8 // must match Path in shibboleth2.xml
-     });
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = ShibbolethDefaults.AuthenticationScheme;
+//}
+// )
+//     .AddUWShibboleth(authenticationScheme: ShibbolethDefaults.AuthenticationScheme, displayName: "shibboleth", options =>
+//     {
+//         options.UseChallenge = true;  // required to process the Shibboleth login
+//         options.CallbackPath = new Microsoft.AspNetCore.Http.PathString("/secure");
+//         //options.ProcessChallenge = true;   // readonly on v8
+//         //options.ChallengePath = new Microsoft.AspNetCore.Http.PathString("/secure");  // readonly on v8 // must match Path in shibboleth2.xml
+//     });
 
 
 builder.Services.AddRazorPages();
